@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+       <!--配置spring mvc adaptor-->
+       <mvc:annotation-driven>
+              <mvc:message-converters>
+                     <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                            <property name="supportedMediaTypes">
+                                   <list>
+                                          <value>application/json;charset=UTF-8</value>
+                                   </list>
+                            </property>
+                     </bean>
+              </mvc:message-converters>
+       </mvc:annotation-driven>
+
+       <!--扫描controller-->
+       <context:component-scan base-package="com.zte.chat.controller"/>
+
+       <!--配置视图解析器-->
+       <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+
+              <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+
+              <property name="prefix" value="/WEB-INF/pages/"/>
+
+              <property name="suffix" value=".jsp"/>
+
+       </bean>
+
+       <!-- 定义文件上传解析器 -->
+       <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+              <!-- 设定默认编码 -->
+              <property name="defaultEncoding" value="UTF-8" />
+              <!-- 设定文件上传的最大值5MB，600*1024*1024 -->
+              <property name="maxUploadSize" value="629145600" />
+              <!-- 缓存大小-->
+              <property name="maxInMemorySize" value="4096" />
+              <!-- 缓存文件夹-->
+              <property name="uploadTempDir" value="fileupload/temp" />
+       </bean>
+       
+
+
+       <mvc:default-servlet-handler />
+       <mvc:resources mapping="/images/**" location="/images/"></mvc:resources>
+       <mvc:resources mapping="/css/**" location="/css/"></mvc:resources>
+       <mvc:resources mapping="/js/**" location="/js/"></mvc:resources>
+
+
+
+</beans>
