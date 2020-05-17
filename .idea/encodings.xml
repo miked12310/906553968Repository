@@ -2,5 +2,9 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/zte/chat/utils/CurrentDate.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/zte/chat/utils/GsonUtils.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/zte/chat/utils/MD5Util.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/zte/chat/utils/OptionUtil.java" charset="GBK" />
   </component>
 </project>
