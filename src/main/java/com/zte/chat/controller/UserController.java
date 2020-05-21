@@ -26,6 +26,44 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @RequestMapping("/login")
+    private String login() {
+        return "user/login";
+    }
+
+    @RequestMapping("/login/do")
+    @ResponseBody
+    private String checkLogin(HttpServletRequest req,HttpSession session) {
+        Map map = new HashMap<>(3);
+        int uid;
+        int status;
+        String msg;
+        String username=req.getParameter("name");
+        String pwd=req.getParameter("pwd");
+//      System.out.print(username);
+//      System.out.print(pwd);
+        // 获取用户
+        User user = userService.checkLogin(username, pwd);
+        // System.out.print(user);
+        if ( user != null ) {
+            session.setAttribute("user", user);
+            uid = user.getUserId();
+            status = 1;
+            msg = "登录成功！";
+            map.put("uid", uid);
+            map.put("status", status);
+            map.put("msg", msg);
+            return JSON.toJSONString(map);
+        }
+        uid = 0;
+        status = 0;
+        msg = "用户名不存在或密码不正确！";
+        map.put("uid", uid);
+        map.put("status", status);
+        map.put("msg", msg);
+        return JSON.toJSONString(map);
+    }
+
     @RequestMapping("/regist")
     private String regist() {
         return "user/regist";
@@ -34,14 +72,18 @@ public class UserController {
     @RequestMapping("/regist/do")
     @ResponseBody
     private String doRegist(HttpServletRequest req, HttpSession session) {
-        Map map = new HashMap<>(4);
+        Map map = new HashMap<>(2);
         int status;
         String msg;
         // 获取用户名和密码
         String name = req.getParameter("name");
         String pwd = req.getParameter("pwd");
         String head = req.getParameter("head");
-        Integer sex = req.getIntHeader("sex");
+        Integer sex = Integer.valueOf(req.getParameter("sex"));
+        System.out.println(name);
+        System.out.println(pwd);
+        System.out.println(head);
+        System.out.println(sex);
         if ( name.length() == 0 || pwd.length() == 0 || head.length() == 0 ) {
             status = 2;
             msg = "未输入用户名或密码！";

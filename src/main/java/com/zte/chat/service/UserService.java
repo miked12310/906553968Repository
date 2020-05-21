@@ -24,4 +24,12 @@ public interface UserService {
      * @return 新增人数
      */
     int regist(String name, String pwd, String head, Integer sex);
+
+    /**
+     * 检查登录
+     * @param name
+     * @param pwd
+     * @return 用户
+     */
+    User checkLogin(String name, String pwd);
 }

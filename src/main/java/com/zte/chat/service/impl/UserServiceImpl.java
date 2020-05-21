@@ -32,6 +32,8 @@ public class UserServiceImpl implements UserService {
         user.setUserName(name);
         String md5Pwd = MD5Util.MD5Encode(pwd);
         user.setPwd(md5Pwd);
+        user.setHead(head);
+        user.setSex(sex);
         user.setTime(CurrentDate.getCurrentDate());
         // 在数据库中查找是否有用户名重复
         User check = userDao.selectByName(name);
@@ -39,5 +41,20 @@ public class UserServiceImpl implements UserService {
             return 0;
         }
         return userDao.insert(user);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
+    public User checkLogin(String name, String pwd) {
+        // 先将传入的密码进行MD5加密
+        String md5Pwd = MD5Util.MD5Encode(pwd);
+        // 根据传入的用户名查询得到用户实体类
+        User user = userDao.selectByName(name);
+        // 判断用户名和密码是否正确
+        // System.out.print(user);
+        if (user != null && user.getPwd().equals(md5Pwd)) {
+            return user;
+        }
+        return null;
     }
 }
